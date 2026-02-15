@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Festival Funny Birthday Card Generator</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', Arial, sans-serif;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
+      margin: 0;
+      padding: 0;
+    }
+    h1 { text-align: center; padding: 20px; color: white; font-size: 36px; }
+    .container { display: flex; gap: 30px; padding: 25px; }
+    .left-panel { width: 35%; background: white; padding: 25px; border-radius: 16px; box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+    .right-panel { width: 65%; display: flex; flex-direction: column; gap: 20px; }
+    input, select { width: 100%; margin-bottom: 10px; padding: 8px; border: 2px solid #a18cd1; border-radius: 8px; }
+    select { margin-bottom: 12px; }
+    button { width: 100%; border-radius: 8px; padding: 10px; cursor: pointer; margin-bottom: 10px; }
+    .generate { border: 2px solid #ff9a9e; }
+    .copy { border: 2px solid #fbc2eb; padding: 8px; margin-top: 10px; }
+    .card { background: white; padding: 25px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
+  </style>
+</head>
+<body>
+  <h1>🎊 Festival Funny Birthday Card Generator 🎊</h1>
+  <div class="container">
+    <div class="left-panel">
+      <h2>Card Details</h2>
+      <input id="name" placeholder="Name">
+      <input id="age" placeholder="Age">
+      <input id="hobby" placeholder="Hobby">
+      <select id="vibe">
+        <option>Funny</option>
+        <option>Roast</option>
+        <option>Wholesome</option>
+        <option>Chaotic</option>
+        <option>Silly</option>
+        <option>Cringe</option>
+        <option>Gen Z</option>
+        <option>Epic</option>
+        <option>Magical</option>
+        <option>Adventure</option>
+        <option>Retro</option>
+      </select>
+      <button class="generate" onclick="generateCard()">Generate Card</button>
+      <button onclick="randomFill()">Random Inputs</button>
+    </div>
+    <div class="right-panel" id="cards"></div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script>
+    function generateMessage(n, a, h, v) {
+      switch(v) {
+        case 'Funny': return `Happy ${a}th birthday ${n}! 🎉 I hope your day is filled with cake, chaos, and way too many presents. Today, may you laugh until your stomach hurts, make silly memories with everyone, and completely forget about responsibilities. Stay awesome, keep doing ${h}, and remember: birthdays are nature’s way of telling us to eat more cake!`;
+        case 'Roast': return `${n}, you are ${a} now. That means your back creaks, your sense of time is questionable, and your ${h} skills might be rusty. But hey, you’ve survived this long, and that deserves some recognition. Happy birthday, old timer!`; 
+        case 'Wholesome': return `Happy birthday ${n}! 💖 Your ${a}th year is a blank canvas, and I hope it is filled with laughter, kindness, adventures, and endless moments of joy. May your ${h} continue to bring you happiness and may every day be as bright as your heart.`;
+        case 'Chaotic': return `🚨 ALERT 🚨 ${n} HAS TURNED ${a}. Prepare for extreme chaos and unexpected fun. All ${h} activities are now mandatory and spontaneous surprises are guaranteed. Brace yourself for a birthday that defies all rules and logic!`;
+        case 'Silly': return `${n}! ${a} is just a number, a very funny one. Dance like nobody’s watching, eat cake like it’s your new job, and do ${h} in the silliest possible way. Birthdays are the perfect excuse to act ridiculous!`;
+        case 'Cringe': return `Yo ${n}, you’re ${a} now. That’s peak iconic. Keep doing ${h}, post embarrassing selfies, and remember that life is too short not to be cringe sometimes. Happy birthday, legend.`;
+        case 'Gen Z': return `Happy birthday ${n}! ${a}? Big vibes. Your day should be full of memes, cake, and endless ${h} adventures. Flex on everyone with your birthday energy and remember: it’s totally mood.`;
+        case 'Epic': return `WOW ${n}! ${a} years of epicness! Celebrate by conquering the world, eating all the cake, and doing ${h} in the most legendary way possible. Today, history is being made, and you are the hero! 🏆`;
+        case 'Magical': return `✨ Happy ${a}th birthday, ${n}! May your day sparkle with magic, your ${h} be enchanted, and your year ahead be full of whimsical adventures. Let today be a fairy tale come true! ✨`;
+        case 'Adventure': return `🎒 Happy birthday ${n}! At ${a} years old, new adventures await! Travel far, try new things, and let ${h} guide your epic quests. May your year be full of excitement and unforgettable experiences! 🌄`;
+        case 'Retro': return `🕹️ Yo ${n}, welcome to ${a} years! Time to do ${h} like it's 1985—full of fun, style, and nostalgia. Blast some retro tunes and have a totally radical birthday!`;
+        default: return `Happy birthday ${n}!`;
+      }
+    }
+
+    function fireConfettiWrapper() {
+      confetti({ particleCount: 160, spread: 80, origin: { y: 0.6 } });
+    }
+
+    function generateCard() {
+      const name = document.getElementById('name').value;
+      const age = document.getElementById('age').value;
+      const hobby = document.getElementById('hobby').value;
+      const vibe = document.getElementById('vibe').value;
+
+      if (!name || !age || !hobby) { alert('Please fill all fields'); return; }
+
+      const message = generateMessage(name, age, hobby, vibe);
+
+      const cardDiv = document.createElement('div');
+      cardDiv.className = 'card';
+      cardDiv.innerHTML = `
+        <h3>🎂 Birthday Card</h3>
+        <p>${message}</p>
+        <button class='copy' onclick='navigator.clipboard.writeText("${message}")'>Copy</button>
+      `;
+
+      const cardsContainer = document.getElementById('cards');
+      cardsContainer.prepend(cardDiv);
+      fireConfettiWrapper();
+    }
+
+    function randomFill() {
+      const names = ['Alex','Sam','Jordan','Taylor','Casey'];
+      const hobbies = ['gaming','sleeping','eating','running','drawing'];
+      const vibes = ['Funny','Roast','Wholesome','Chaotic','Silly','Cringe','Gen Z','Epic','Magical','Adventure','Retro'];
+
+      document.getElementById('name').value = names[Math.floor(Math.random()*names.length)];
+      document.getElementById('age').value = String(Math.floor(Math.random()*60)+10);
+      document.getElementById('hobby').value = hobbies[Math.floor(Math.random()*hobbies.length)];
+      document.getElementById('vibe').value = vibes[Math.floor(Math.random()*vibes.length)];
+    }
+  </script>
+</body>
+</html>
